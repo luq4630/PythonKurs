@@ -1,0 +1,6 @@
+docs/
+_output/
+.jupyterlite.doit.db
+*.tgz
+*.map
+.ipynb_checkpoints/
