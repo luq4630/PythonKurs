@@ -18,9 +18,11 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Install JupyterLite
+           - name: Install JupyterLite
         run: |
-          pip install jupyterlite
+          pip install jupyterlite jupyterlite-core jupyterlite-pyodide-kernel
+
+
 
       - name: Build JupyterLite site
         run: |
