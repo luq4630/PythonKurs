@@ -2,47 +2,55 @@ name: Build and Deploy JupyterLite
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repo
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-           - name: Install JupyterLite
+      - name: Install JupyterLite toolchain
         run: |
-          pip install jupyterlite jupyterlite-core jupyterlite-pyodide-kernel
+          python -m pip install --upgrade pip
+          pip install jupyterlite==0.6.4 jupyterlite-core==0.6.4 jupyterlite-pyodide-kernel jupyter-server
 
-
-
-      - name: Build JupyterLite site
+      - name: Build site (include content/)
         run: |
-          jupyter lite build --contents content --output-dir docs
+          jupyter lite build --contents content --output-dir site
+          # Sourcemaps weglöschen, damit die Artefakte klein bleiben
+          find site -name "*.map" -delete
 
-      - name: Upload Pages artifact
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: docs
+          path: site
 
   deploy:
     needs: build
-    permissions:
-      pages: write
-      id-token: write
+    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
+      - id: deployment
         uses: actions/deploy-pages@v4
