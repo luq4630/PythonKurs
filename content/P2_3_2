@@ -1,0 +1,72 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# 📘 Aufgabe 2.3 — Folge und Grenzwert\n",
+    "\n",
+    "Gegeben ist die Folge\n",
+    "\n",
+    "$$a_n = \\left(1 + \\frac{1}{n}\\right)^n$$\n",
+    "\n",
+    "## Was du machen sollst\n",
+    "- **Schreibe eine Funktion `folge(n)`**, die $a_n$ berechnet.\n",
+    "- **Berechne** die ersten **50** Folgenglieder (z. B. in einer Liste `werte`).\n",
+    "- **Stelle die Folge grafisch dar** (mit `matplotlib`).\n",
+    "- **Begründe**, ob die Folge konvergiert, und vergleiche den Grenzwert mit $e \\approx 2{,}71828$.\n",
+    "\n",
+    "**Wichtig:** Es ist **kein** Startcode vorgegeben – du schreibst alles selbst."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "metadata": {},
+   "execution_count": null,
+   "outputs": [],
+   "source": [
+    "# 👇 Deine Lösung hier (du schreibst alles selbst)\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## ✅ Überprüfung\n",
+    "Führe diese Zelle aus, **nachdem** du deine Lösung ausgeführt hast."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "metadata": {},
+   "execution_count": null,
+   "outputs": [],
+   "source": [
+    "import math\n",
+    "\n",
+    "def check():\n",
+    "    if 'folge' not in globals() or not callable(folge):\n",
+    "        print(\"❌ Bitte definiere eine Funktion folge(n).\")\n",
+    "        return\n",
+    "    try:\n",
+    "        a1, a2, a10, a1000 = folge(1), folge(2), folge(10), folge(1000)\n",
+    "    except Exception as e:\n",
+    "        print(\"❌ Fehler beim Ausführen:\", e)\n",
+    "        return\n",
+    "    if abs(a1-2.0)>1e-9: print(\"❌ a1 falsch\"); return\n",
+    "    if abs(a2-2.25)>1e-9: print(\"❌ a2 falsch\"); return\n",
+    "    if not (a10>2.5): print(\"❌ a10 sollte >2.5 sein\"); return\n",
+    "    if abs(a1000-math.e)>0.01: print(\"❌ a1000 sollte nahe e liegen\"); return\n",
+    "    print(\"✅ Alle Kern-Tests bestanden! Die Folge konvergiert gegen e ≈ 2.71828.\")\n",
+    "\n",
+    "check()"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {"display_name": "Python", "language": "python", "name": "python"},
+  "language_info": {"name": "python", "pygments_lexer": "ipython3"}
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
